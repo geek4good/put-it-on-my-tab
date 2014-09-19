@@ -4,6 +4,8 @@ require "yaml"
 
 module PutItOnMyTab
   module Serializers
+    class UnauthorizedError < StandardError; end
+
     class FileSystem
       DEFAULT_STORE_DIR = Dir.pwd
 
@@ -20,13 +22,23 @@ module PutItOnMyTab
         File.basename(filename)
       end
 
+      def retrieve(basename)
+        filename = filename(basename)
+        deserialize(File.read(filename))
+      end
+
       private
 
       def generate_filename
         loop do
-          filename = File.join(store_dir, SecureRandom.uuid)
+          basename = SecureRandom.uuid
+          filename = filename(basename)
           return filename unless File.exists?(filename)
         end
+      end
+
+      def filename(basename)
+        File.join(store_dir, basename)
       end
 
       def serialize(note)
@@ -38,6 +50,15 @@ module PutItOnMyTab
             "salt" => Base64.encode64(crypto_helper.salt)
           }
         }.to_yaml
+      end
+
+      def deserialize(serialized_note)
+        note_data = YAML.load(serialized_note)
+        meta_data = note_data["meta_data"]
+        fail UnauthorizedError unless crypto_helper.authorized?(meta_data["hashed_password"])
+
+        crypto_helper.salt = Base64.decode64(meta_data["salt"])
+        Note.new( note_data["title"], crypto_helper.decrypt(note_data["body"]))
       end
     end
   end

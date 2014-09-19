@@ -1,6 +1,8 @@
 module PutItOnMyTab
   class CryptoHelper
-    def initialize(password, salt = nil)
+    attr_writer :salt
+
+    def initialize(password)
       @password = password
       @salt = salt
     end
@@ -9,7 +11,7 @@ module PutItOnMyTab
       @hashed_password ||= Digest::SHA2.hexdigest(password)
     end
 
-    def authorize(password_hash)
+    def authorized?(password_hash)
       password_hash.eql?(hashed_password)
     end
 

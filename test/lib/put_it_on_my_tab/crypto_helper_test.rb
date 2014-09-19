@@ -2,14 +2,14 @@ require "test_helper"
 
 module PutItOnMyTab
   describe CryptoHelper do
-    subject { CryptoHelper.new(password, salt) }
+    subject { CryptoHelper.new(password).tap { |helper| helper.salt = salt } }
 
     let(:password) { "SUP3RS3CRE7" }
     let(:salt) { "\xA7\x97\\\"m\xFAQ\xF9" }
 
-    describe "#authorize" do
-      it { assert subject.authorize("a0b99d8e3defed75cdef291370838bd74dfc5ff911697ed9d91ec3354977e391") }
-      it { refute subject.authorize("This is plain wrong") }
+    describe "#authorized?" do
+      it { assert subject.authorized?("a0b99d8e3defed75cdef291370838bd74dfc5ff911697ed9d91ec3354977e391") }
+      it { refute subject.authorized?("This is plain wrong") }
     end
 
     describe "#encrypt" do
