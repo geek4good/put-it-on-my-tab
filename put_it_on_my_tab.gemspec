@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = PutItOnMyTab::VERSION
   spec.authors       = ["Lucas Mbiwe"]
   spec.email         = ["lucas@geek4good.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = "A simplistic note-taking application"
+  spec.description   = "A web service that allows clients to save and retrieve notes"
   spec.homepage      = ""
   spec.license       = "MIT"
 
