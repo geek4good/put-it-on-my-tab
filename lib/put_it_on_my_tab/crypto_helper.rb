@@ -5,8 +5,12 @@ module PutItOnMyTab
       @salt = salt
     end
 
-    def authorize(hashed_password)
-      hashed_password.eql?(Digest::SHA2.hexdigest(password))
+    def hashed_password
+      @hashed_password ||= Digest::SHA2.hexdigest(password)
+    end
+
+    def authorize(password_hash)
+      password_hash.eql?(hashed_password)
     end
 
     def encrypt(string)

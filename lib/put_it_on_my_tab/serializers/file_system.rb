@@ -1,3 +1,4 @@
+require "base64"
 require "securerandom"
 require "yaml"
 
@@ -6,10 +7,11 @@ module PutItOnMyTab
     class FileSystem
       DEFAULT_STORE_DIR = Dir.pwd
 
-      attr_reader :store_dir
+      attr_reader :store_dir, :crypto_helper
 
       def initialize(options = {})
         @store_dir = options.fetch(:store_dir, DEFAULT_STORE_DIR)
+        @crypto_helper = options.fetch(:crypto_helper)
       end
 
       def store(note)
@@ -28,7 +30,14 @@ module PutItOnMyTab
       end
 
       def serialize(note)
-        { "title" => note.title, "body" => note.body }.to_yaml
+        {
+          "title" => note.title,
+          "body" => crypto_helper.encrypt(note.body),
+          "meta_data" => {
+            "hashed_password" => crypto_helper.hashed_password,
+            "salt" => Base64.encode64(crypto_helper.salt)
+          }
+        }.to_yaml
       end
     end
   end
