@@ -22,9 +22,9 @@ module PutItOnMyTab
       let(:filename) { File.join(store_dir, note_id) }
 
       it { assert File.exists?(filename) }
-      it { assert File.read(filename).include?(title) }
-      it { assert File.read(filename).include?("body") }
-      it { refute File.read(filename).include?(body) }
+      it { assert_includes File.read(filename), title }
+      it { assert_includes File.read(filename), "body" }
+      it { refute_includes File.read(filename), body }
     end
 
     describe "#retrieve" do
