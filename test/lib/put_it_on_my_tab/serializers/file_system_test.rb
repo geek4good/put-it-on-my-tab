@@ -51,7 +51,7 @@ YAML
       describe "when using an incorrect password" do
         let(:password) { "incorrect" }
 
-        it { assert_raises(Serializers::UnauthorizedError) { subject.retrieve(basename) } }
+        it { assert_raises(Serializers::NoAuthorizationError) { subject.retrieve(basename) } }
       end
     end
 

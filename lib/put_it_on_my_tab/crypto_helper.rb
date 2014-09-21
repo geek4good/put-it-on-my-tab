@@ -4,7 +4,6 @@ module PutItOnMyTab
 
     def initialize(password)
       @password = password
-      @salt = salt
     end
 
     def hashed_password
