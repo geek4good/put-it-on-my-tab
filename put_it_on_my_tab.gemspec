@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["lucas@geek4good.com"]
   spec.summary       = "A simplistic note-taking application"
   spec.description   = "A web service that allows clients to save and retrieve notes"
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/geek4good/put-it-on-my-tab"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

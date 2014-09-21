@@ -2,7 +2,7 @@
 
 A simplistic note-taking application framework.
 
-*Put it on my TAB* is a very simple framework to create and retrieve notes. At the
+**Put it on my TAB** is a very simple framework to create and retrieve notes. At the
 moment there's is an example web delivery method and a file system serializer
 for storing notes as well as a fake serializer for testing. If desired, the
 notes can also be encrypted with a password. In fact, when using the web
@@ -62,7 +62,7 @@ You can freely choose a port number that suits you, of course.
 
 If you want to want to use a different serializer set the environment variable
 `SERIALIZER`. At this time valid values are `files` and `fake`. If the
-environment variable `SERIALIZER` is not set, *Put it on my TAB* defaults to use
+environment variable `SERIALIZER` is not set, **Put it on my TAB** defaults to use
 the file system serializer.
 
 When using file system serialization, the default storage directory is
