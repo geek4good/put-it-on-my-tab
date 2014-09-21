@@ -5,8 +5,7 @@ module PutItOnMyTab
   describe Serializers::FileSystem do
     subject { Serializers::FileSystem.new(options) }
 
-    let(:options) { { :store_dir => store_dir, :crypto_helper => crypto_helper } }
-    let(:store_dir) { Dir.mktmpdir }
+    let(:options) { { :crypto_helper => crypto_helper } }
     let(:crypto_helper) { CryptoHelper.new(password).tap { |helper| helper.salt = salt } }
     let(:password) { "SUP3RS3CRE7" }
     let(:salt) { "\xA7\x97\\\"m\xFAQ\xF9" }
@@ -15,11 +14,12 @@ module PutItOnMyTab
     let(:title) { "Cats" }
     let(:body) { "Cat puns freak meowt. Seriously, I'm not kitten!" }
 
-    after { FileUtils.remove_entry(store_dir) }
+    before { ENV["FILE_STORE"] = Dir.mktmpdir }
+    after { FileUtils.remove_entry(ENV.delete("FILE_STORE")) if ENV["FILE_STORE"] }
 
     describe "#store" do
       let(:note_id) { subject.store(note) }
-      let(:filename) { File.join(store_dir, note_id) }
+      let(:filename) { File.join(ENV["FILE_STORE"], note_id) }
 
       it { assert File.exists?(filename) }
       it { assert_includes File.read(filename), title }
@@ -28,7 +28,7 @@ module PutItOnMyTab
     end
 
     describe "#retrieve" do
-      let(:filename) { File.join(store_dir, basename) }
+      let(:filename) { File.join(ENV["FILE_STORE"], basename) }
       let(:basename) { "testfile" }
       let(:yaml_data) { <<YAML }
 ---
@@ -56,7 +56,7 @@ YAML
     end
 
     describe "when not specifying a storage directory" do
-      let(:options) { { :crypto_helper => crypto_helper } }
+      before { ENV.delete("FILE_STORE") }
 
       it { assert_equal Serializers::FileSystem::DEFAULT_STORE_DIR, subject.store_dir }
     end

@@ -10,8 +10,8 @@ module PutItOnMyTab
       attr_reader :store_dir, :crypto_helper
 
       def initialize(options = {})
-        @store_dir = options.fetch(:store_dir, DEFAULT_STORE_DIR)
         @crypto_helper = options.fetch(:crypto_helper)
+        @store_dir = ENV.fetch("FILE_STORE", DEFAULT_STORE_DIR)
       end
 
       def store(note)
