@@ -107,3 +107,10 @@ Separation of concerns:
 * separate serialization gem
 * separate delivery method gem or using this gem (and if split off serialization
   gem) in an existing delivery method, e.g., Sinatra or Rails
+
+Parting words
+
+I've written this in several short sessions over the weekend. I've definitely
+taken more than three hours to finish, but not much more than five, I think. So
+don't let the file creation times and timestamps on the commits confuse you.
+Thanks.
